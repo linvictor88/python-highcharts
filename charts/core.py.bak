@@ -1,8 +1,8 @@
 __author__ = 'arnoutaertgeerts'
 
 from string import Template
-from .jsonencoder import ChartsJSONEncoder
-from .server import url
+from jsonencoder import ChartsJSONEncoder
+from server import url
 
 import os
 import json
@@ -22,16 +22,15 @@ def show_plot(html, saveHTML, show, async=False):
         return HTML(html)
 
     elif show == 'tab':
-        print('Opening new tab...')
+        print 'Opening new tab...'
         if async:
             address = url(async)
-            print ("url: ", address)
             webbrowser.open_new_tab(address)
         else:
             webbrowser.open_new_tab('file://' + os.path.realpath(saveHTML))
 
     elif show == 'window':
-        print('Trying to open a window. If this fails we will open a tab...')
+        print 'Trying to open a window. If this fails we will open a tab...'
         if async:
             address = url(async)
             webbrowser.open_new(address)
@@ -64,7 +63,7 @@ def to_json_files(series, path):
         k["display"] = False
 
     for s in series:
-        if s["name"] not in [x["name"] for x in keys]:
+        if s["name"] not in map(lambda x: x["name"], keys):
             keys.append(dict(name=s["name"], display=s["display"], value=s["name"], text=s["name"]))
             with open(os.path.join(path, s["name"] + ".json"), "w") as json_file:
                 json_file.write(json.dumps(s, cls=ChartsJSONEncoder))

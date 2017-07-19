@@ -17,17 +17,17 @@ def df_to_series(df, display=[]):
     df.index = df.index.tz_localize(None)
     index = [int(x/1e6) for x in df.index.asi8]
     series = []
-    display = dict(list(zip(df.columns,[False for x in df])))
+    display = dict(zip(df.columns,[False for x in df]))
     try:
         for col in plot_columns:
             try:
                 display[col]
                 display[col]=True
             except KeyError:
-                print('Warning\n','-'*7,'\n',' '*4,'"{}"'.format(col), 'will not be displayed.\nVariable not found in DataFrame.\n')
-                print('Try one the following columns:\n{}'.format(list(df.columns)))
+                print 'Warning\n','-'*7,'\n',' '*4,'"{}"'.format(col), 'will not be displayed.\nVariable not found in DataFrame.\n'
+                print 'Try one the following columns:\n{}'.format(list(df.columns))
     except TypeError:
-        display = dict(list(zip(df.columns,[plot_columns for x in df])))
+        display = dict(zip(df.columns,[plot_columns for x in df]))
     for col in df:
         data = []
         ts = df[col].where((pd.notnull(df[col])), None)

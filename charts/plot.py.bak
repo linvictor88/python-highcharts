@@ -1,10 +1,10 @@
 __author__ = 'Arnout Aertgeerts'
 
-from .core import MyTemplate, to_json_files, to_series, clean_dir, set_display, show_plot, make_dir, remove_quotes
-from .jsonencoder import ChartsJSONEncoder
-from .chart import Chart
-from .server import address
-from .settings import default_settings, load_options, default_options
+from core import MyTemplate, to_json_files, to_series, clean_dir, set_display, show_plot, make_dir, remove_quotes
+from jsonencoder import ChartsJSONEncoder
+from chart import Chart
+from server import address
+from settings import default_settings, load_options, default_options
 
 import os
 import json
@@ -73,7 +73,7 @@ def plot(series, options=dict(), **kwargs):
     chart_settings.update(kwargs)
     chart_options.update(options)
 
-    keys = list(chart_settings.keys())
+    keys = chart_settings.keys()
 
     for key in keys:
         if key not in ['options', 'name', 'display', 'save', 'show', 'height', 'type', 'stock', 'width']:
@@ -201,8 +201,7 @@ def plotasync(
             height=str(height) + "px",
             live=json.dumps(live),
             url=json.dumps(address),
-            save=json.dumps(False),
-            settingsFile=json.dumps('settings')
+            save=json.dumps(False)
         )
 
         inline = MyTemplate(read).substitute(
@@ -212,8 +211,7 @@ def plotasync(
             height=str(height) + "px",
             live=json.dumps(live),
             url=json.dumps(address),
-            save=json.dumps(False),
-            settingsFile=json.dumps('settings')
+            save=json.dumps(False)
         )
 
     html_path = os.path.join(save, 'index.html')
